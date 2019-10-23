@@ -70,6 +70,9 @@ public class Main extends Application {
         Canvas canvas = new Canvas(rectangle2D.getWidth()/4*3, rectangle2D.getHeight()-34);
         canvas.setStyle("-fx-background-color: #336699;");
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.setFill(Color.BLUE);
+        graphicsContext.fillOval(10,10, 20,20);
+        graphicsContext.setFill(Color.BLACK);
 
         root.getChildren().addAll(settings, canvas);
 
