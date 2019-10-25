@@ -196,7 +196,74 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (circlesList.size() != 0){
-
+                    inputError2.setVisible(false);
+                    switch (chooseFigure.getValue()){
+                        case Circle.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Circle c : circlesList){
+                                    if (c != null){
+                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            c.changeRadius(toDouble(changedRadius.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                        case Rectangle.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Rectangle r : rectangleList){
+                                    if (r != null){
+                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            r.changeDimensions(toDouble(changedWidth.getText()),
+                                                    toDouble(changedHeight.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                        case Line.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Line l : linesList){
+                                    if (l != null){
+                                        if (!isOptionalFieldCorrect(changedLength.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            l.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            l.changeLength(toDouble(changedLength.getText()));
+                                            l.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                    }
                 }
             }
         });
@@ -306,6 +373,18 @@ public class Main extends Application {
         }
     }
 
+    private boolean isOptionalFieldCorrect(String text, String typeOfField) throws Exception{
+        if (text != null) {
+            if (typeOfField.equals(COORDINATE)) {
+                if (!text.matches("(?!-0(\\.0+)?)-?(0|[1-9]\\d*)(\\.\\d+)?")) throw new Exception();
+            } else {
+                if (!text.matches("(0|[1-9]\\d*)(\\.\\d+)?")) throw new Exception();
+            }
+            return true;
+        }
+        return false;
+    }
+
     private double toDouble(String s){
         return Double.parseDouble(s);
     }
@@ -403,5 +482,4 @@ public class Main extends Application {
             }
         }
     }
-
 }

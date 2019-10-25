@@ -33,6 +33,15 @@ public class Line {
         }
     }
 
+    public void move(double biasX, double biasY){
+        x = x + biasX;
+        y = y + biasY;
+    }
+
+    public void changeLength(double changedLength){
+        length = changedLength;
+    }
+
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }

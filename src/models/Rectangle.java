@@ -36,6 +36,16 @@ public class Rectangle {
         }
     }
 
+    public void move(double biasX, double biasY){
+        x = x + biasX;
+        y = y + biasY;
+    }
+
+    public void changeDimensions(double changedWidth, double changedHeight){
+        height = changedHeight;
+        width = changedWidth;
+    }
+
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }

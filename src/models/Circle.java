@@ -33,6 +33,15 @@ public class Circle {
         }
     }
 
+    public void move(double biasX, double biasY){
+        x = x + biasX;
+        y = y + biasY;
+    }
+
+    public void changeRadius(double changedRadius){
+        radius = changedRadius;
+    }
+
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
