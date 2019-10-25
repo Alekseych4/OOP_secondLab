@@ -11,16 +11,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import models.Circle;
 import models.Line;
 import models.Rectangle;
@@ -30,11 +28,11 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     private VBox inputFields;
-    private HBox text1, text2;
+    private HBox text1, text2, buttons;
     private TextField createOnX, createOnY, moveToX, moveToY, radius, changedRadius, length, changedLength,
             height, width, changedHeight, changedWidth;
     private Label figureName1, figureName2, movement, creation, inputError1, inputError2;
-    private Button createBtn, moveBtn, createRandomBtn;
+    private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn;
     private ComboBox<String> chooseFigure;
     private ArrayList<Circle> circlesList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
@@ -61,60 +59,21 @@ public class Main extends Application {
         initToolsText();
 
         createBtn = new Button("Создать");
-        createBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                inputError1.setVisible(false);
-                switch (chooseFigure.getValue()){
-                    case Circle.NAME:
-                        try{
-                            isInputCorrect(createOnX.getText(), COORDINATE);
-                            isInputCorrect(createOnY.getText(), COORDINATE);
-                            isInputCorrect(radius.getText(), DIMENSION);
-                        }catch (Exception e){
-                            inputError1.setVisible(true);
-                        }
-                        break;
-                    case Rectangle.NAME:
-                        try{
-                            isInputCorrect(createOnX.getText(), COORDINATE);
-                            isInputCorrect(createOnY.getText(), COORDINATE);
-                            isInputCorrect(height.getText(), DIMENSION);
-                            isInputCorrect(width.getText(), DIMENSION);
-                        }catch (Exception e){
-                            inputError1.setVisible(true);
-                        }
-                        break;
-                    case Line.NAME:
-                        try{
-                            isInputCorrect(createOnX.getText(), COORDINATE);
-                            isInputCorrect(createOnY.getText(), COORDINATE);
-                            isInputCorrect(length.getText(), DIMENSION);
-                        }catch (Exception e){
-                            inputError1.setVisible(true);
-                        }
-                        break;
-                }
-
-            }
-        });
-
         createRandomBtn = new Button("Создать со случайными значениями");
-        createRandomBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-            }
-        });
-
-        //TODO: Except input before creation of any object
         moveBtn = new Button("Переместить");
-        moveBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+        hideBtn = new Button("Скрыть");
+        Tooltip t = new Tooltip("Скрыть фигуры данного типа");
+        t.setShowDelay(Duration.ZERO);
+        hideBtn.setTooltip(t);
+        showBtn = new Button("Показать");
+        Tooltip t1 = new Tooltip("Показать фигуры данного типа");
+        t1.setShowDelay(Duration.ZERO);
+        showBtn.setTooltip(t1);
+        clearAllBtn = new Button("Очистить холст");
 
-            }
-        });
+        buttons = new HBox(16);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(clearAllBtn, hideBtn, showBtn, moveBtn);
 
         text1 = new HBox();
         text1.getChildren().addAll(creation, figureName1);
@@ -145,10 +104,185 @@ public class Main extends Application {
         settings.getChildren().addAll(chooseFigure, inputFields);
 
         Canvas canvas = new Canvas(rectangle2D.getWidth()/4*3, rectangle2D.getHeight()-34);
-        canvas.setStyle("-fx-background-color: #336699;");
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-        graphicsContext.setFill(Color.BLUE);
-        graphicsContext.fillOval(10,10, 20,20);
+
+        createBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                inputError1.setVisible(false);
+                switch (chooseFigure.getValue()){
+                    case Circle.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(radius.getText(), DIMENSION);
+
+                            circlesList.add(new Circle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(radius.getText())));
+                            rectangleList.add(null);
+                            linesList.add(null);
+
+                            circlesList.get(circlesList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Rectangle.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(height.getText(), DIMENSION);
+                            isInputCorrect(width.getText(), DIMENSION);
+
+                            rectangleList.add(new Rectangle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(height.getText()), toDouble(width.getText())));
+                            circlesList.add(null);
+                            linesList.add(null);
+
+                            rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Line.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(length.getText(), DIMENSION);
+
+                            linesList.add(new Line(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(length.getText())));
+                            circlesList.add(null);
+                            rectangleList.add(null);
+
+                            linesList.get(linesList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                }
+
+            }
+        });
+        createRandomBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                switch (chooseFigure.getValue()){
+                    case Circle.NAME:
+                        circlesList.add(new Circle());
+                        rectangleList.add(null);
+                        linesList.add(null);
+
+                        circlesList.get(circlesList.size() - 1).show(graphicsContext);
+                        break;
+                    case Rectangle.NAME:
+                            rectangleList.add(new Rectangle());
+                            circlesList.add(null);
+                            linesList.add(null);
+
+                            rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
+                        break;
+                    case Line.NAME:
+                            linesList.add(new Line());
+                            circlesList.add(null);
+                            rectangleList.add(null);
+
+                            linesList.get(linesList.size() - 1).show(graphicsContext);
+                        break;
+                }
+            }
+        });
+        moveBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (circlesList.size() != 0){
+
+                }
+            }
+        });
+        hideBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (circlesList.size() != 0){
+                    switch (chooseFigure.getValue()){
+                        case Circle.NAME:
+                            for (Circle c : circlesList){
+                                if (c != null){
+                                    c.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Rectangle.NAME:
+                            for (Rectangle r : rectangleList){
+                                if (r != null){
+                                    r.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Line.NAME:
+                            for (Line l : linesList){
+                                if (l != null){
+                                    l.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                    }
+                }
+            }
+        });
+        showBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (circlesList.size() != 0) {
+                    switch (chooseFigure.getValue()){
+                        case Circle.NAME:
+                            for (Circle c : circlesList){
+                                if (c != null){
+                                    c.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Rectangle.NAME:
+                            for (Rectangle r : rectangleList){
+                                if (r != null){
+                                    r.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Line.NAME:
+                            for (Line l : linesList){
+                                if (l != null){
+                                    l.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                    }
+                }
+            }
+        });
+        clearAllBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (circlesList.size() != 0) {
+                    clearCanvas(canvas, graphicsContext);
+                    circlesList.clear();
+                    rectangleList.clear();
+                    linesList.clear();
+                }
+            }
+        });
 
         root.getChildren().addAll(settings, canvas);
 
@@ -172,6 +306,10 @@ public class Main extends Application {
         }
     }
 
+    private double toDouble(String s){
+        return Double.parseDouble(s);
+    }
+
     private void setSpecificTools(String name){
 //     radius, changedRadius, length, changedLength, height, width
         figureName1.setText(name);
@@ -180,17 +318,17 @@ public class Main extends Application {
             case Circle.NAME:
                 hasChildren(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, moveBtn);
+                        createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, buttons);
                 break;
             case Rectangle.NAME:
                 hasChildren(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, height, width, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedHeight, changedWidth, inputError2, moveBtn);
+                        createRandomBtn, text2, moveToX, moveToY, changedHeight, changedWidth, inputError2, buttons);
                 break;
             case Line.NAME:
                 hasChildren(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, length, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, moveBtn);
+                        createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, buttons);
                 break;
         }
     }
@@ -245,6 +383,24 @@ public class Main extends Application {
     private void hasChildren(VBox vBox){
         if (!vBox.getChildren().isEmpty()){
             vBox.getChildren().clear();
+        }
+    }
+
+    private void clearCanvas(Canvas canvas, GraphicsContext gc){
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+    }
+
+    private void drawAgain(GraphicsContext gc){
+        for (int i = 0; i < circlesList.size(); i++){
+            if (circlesList.get(i) != null) {
+                if (circlesList.get(i).getVisibility()) circlesList.get(i).show(gc);
+            }
+            if (rectangleList.get(i) != null){
+                if (rectangleList.get(i).getVisibility()) rectangleList.get(i).show(gc);
+            }
+            if (linesList.get(i) != null) {
+                if (linesList.get(i).getVisibility()) linesList.get(i).show(gc);
+            }
         }
     }
 
