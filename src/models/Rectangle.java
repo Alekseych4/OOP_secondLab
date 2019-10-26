@@ -37,8 +37,8 @@ public class Rectangle {
     }
 
     public void move(double biasX, double biasY){
-        x = x + biasX;
-        y = y + biasY;
+        x += biasX;
+        y += biasY;
     }
 
     public void changeDimensions(double changedWidth, double changedHeight){
