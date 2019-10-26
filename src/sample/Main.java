@@ -204,9 +204,7 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                System.out.println(isOptionalFieldCorrect(changedRadius.getText(), DIMENSION));
                                 for (Circle c : circlesList){
-//                                    System.out.println(isOptionalFieldCorrect(changedRadius.getText(), DIMENSION));
                                     if (c != null){
 
                                         if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
