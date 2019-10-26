@@ -6,21 +6,18 @@ import javafx.scene.paint.Paint;
 public class Circle {
     public static final String NAME = "круг";
 
-    private double x;
-    private double y;
+    private Point center;
     private double radius;
     private boolean visibility;
 
     public Circle(double x, double y, double radius) {
         this.radius = radius;
-        this.x = x;
-        this.y = y;
+        center = new Point(x, y);
         visibility = true;
     }
 
     public Circle(){
-        x = Math.random() * 1000;
-        y = Math.random() * 1000;
+        center = new Point(Math.random() * 1000, Math.random() * 1000);
         radius = Math.random() * 100;
         visibility = true;
     }
@@ -29,13 +26,13 @@ public class Circle {
         if (visibility) {
             String color = "#00FF00";
             gc.setFill(Paint.valueOf(color));
-            gc.fillOval(x, y, radius, radius);
+            gc.fillOval(center.getX(), center.getY(), radius, radius);
         }
     }
 
     public void move(double biasX, double biasY){
-        x += biasX;
-        y += biasY;
+        center.setX(center.getX() + biasX);
+        center.setY(center.getY() + biasY);
     }
 
     public void changeRadius(double changedRadius){
