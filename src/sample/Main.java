@@ -88,6 +88,8 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 if (chooseFigure.getValue() != null) {
                     setSpecificTools(chooseFigure.getValue());
+                    inputError1.setVisible(false);
+                    inputError2.setVisible(false);
                 }
             }
         });
@@ -202,8 +204,11 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
+                                System.out.println(isOptionalFieldCorrect(changedRadius.getText(), DIMENSION));
                                 for (Circle c : circlesList){
+//                                    System.out.println(isOptionalFieldCorrect(changedRadius.getText(), DIMENSION));
                                     if (c != null){
+
                                         if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
                                             c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
@@ -374,7 +379,7 @@ public class Main extends Application {
     }
 
     private boolean isOptionalFieldCorrect(String text, String typeOfField) throws Exception{
-        if (text != null) {
+        if (!text.isBlank()) {
             if (typeOfField.equals(COORDINATE)) {
                 if (!text.matches("(?!-0(\\.0+)?)-?(0|[1-9]\\d*)(\\.\\d+)?")) throw new Exception();
             } else {
