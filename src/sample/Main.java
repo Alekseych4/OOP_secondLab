@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import models.Circle;
 import models.Line;
 import models.Rectangle;
+import models.Ring;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,8 @@ public class Main extends Application {
     private ArrayList<Circle> circlesList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
-    private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME);
+    private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME,
+            Ring.NAME);
     private static final String COORDINATE = "COORDINATE";
     private static final String DIMENSION = "DIMENSION";
 
@@ -398,17 +400,18 @@ public class Main extends Application {
         figureName2.setText(name);
         switch (name) {
             case Circle.NAME:
-                hasChildren(inputFields);
+            case Ring.NAME:
+                clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, buttons);
                 break;
             case Rectangle.NAME:
-                hasChildren(inputFields);
+                clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, height, width, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedHeight, changedWidth, inputError2, buttons);
                 break;
             case Line.NAME:
-                hasChildren(inputFields);
+                clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, length, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, buttons);
                 break;
@@ -462,7 +465,7 @@ public class Main extends Application {
         movement.setFont(Font.font(16));
     }
 
-    private void hasChildren(VBox vBox){
+    private void clearInputFields(VBox vBox){
         if (!vBox.getChildren().isEmpty()){
             vBox.getChildren().clear();
         }

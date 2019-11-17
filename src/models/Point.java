@@ -7,7 +7,7 @@ public class Point {
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
-        System.out.println("Object has been created!");
+        System.out.println("Object Point has been created!");
     }
 
     public double getX() {

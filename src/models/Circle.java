@@ -1,6 +1,8 @@
 package models;
 
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 public class Circle {
@@ -14,18 +16,22 @@ public class Circle {
         this.radius = radius;
         center = new Point(x, y);
         visibility = true;
+        // TODO: implement checkFittingIn();
+        System.out.println("Object Circle has been created!");
     }
 
     public Circle(){
         center = new Point(Math.random() * 1000, Math.random() * 1000);
         radius = Math.random() * 100;
         visibility = true;
+        // TODO: implement checkFittingIn();
+        System.out.println("Object Circle has been created!");
     }
 
     public void show(GraphicsContext gc){
         if (visibility) {
             String color = "#00FF00";
-            gc.setFill(Paint.valueOf(color));
+            gc.setFill(Color.RED);
             gc.fillOval(center.getX(), center.getY(), radius, radius);
         }
     }
@@ -45,5 +51,9 @@ public class Circle {
 
     public boolean getVisibility() {
         return visibility;
+    }
+
+    private void checkFittingIn(Canvas c, GraphicsContext gc){
+
     }
 }
