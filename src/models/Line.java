@@ -8,20 +8,23 @@ public class Line {
 
     private double x;
     private double y;
-    private double length;
+    private double x1;
+    private double y1;
     private boolean visibility;
 
-    public Line(double x, double y, double length) {
+    public Line(double x, double y, double x1, double y1) {
         this.x = x;
         this.y = y;
-        this.length = length;
+        this.x1 = x1;
+        this.y1 = y1;
         visibility = true;
     }
 
     public Line(){
         x = Math.random() * 1000;
         y = Math.random() * 1000;
-        length = Math.random() * 100;
+        y1 = Math.random() * 1000;
+        x1 = Math.random() * 1000;
         visibility = true;
     }
 
@@ -29,17 +32,19 @@ public class Line {
         if (visibility) {
             String color = "#000000";
             gc.setStroke(Paint.valueOf(color));
-            gc.strokeLine(x, y, x+length, y);
+            gc.strokeLine(x, y, x1, y1);
         }
     }
 
     public void move(double biasX, double biasY){
         x += biasX;
         y += biasY;
+        x1 += biasX;
+        y1 += biasY;
     }
 
     public void changeLength(double changedLength){
-        length = changedLength;
+        x1 = changedLength;
     }
 
     public void setVisibility(boolean visibility) {

@@ -30,7 +30,7 @@ public class Main extends Application {
 
     private VBox inputFields;
     private HBox text1, text2, buttons;
-    private TextField createOnX, createOnY, moveToX, moveToY, radius, changedRadius, length, changedLength,
+    private TextField createOnX, createOnY, moveToX, moveToY, radius, changedRadius, x1, y1, changedLength,
             height, width, changedHeight, changedWidth;
     private Label figureName1, figureName2, movement, creation, inputError1, inputError2;
     private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn;
@@ -172,10 +172,11 @@ public class Main extends Application {
                         try{
                             isInputCorrect(createOnX.getText(), COORDINATE);
                             isInputCorrect(createOnY.getText(), COORDINATE);
-                            isInputCorrect(length.getText(), DIMENSION);
+                            isInputCorrect(x1.getText(), COORDINATE);
+                            isInputCorrect(y1.getText(), COORDINATE);
 
                             linesList.add(new Line(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    toDouble(length.getText())));
+                                    toDouble(x1.getText()), toDouble(y1.getText())));
                             circlesList.add(null);
                             rectangleList.add(null);
                             ringsList.add(null);
@@ -486,7 +487,7 @@ public class Main extends Application {
                 break;
             case Line.NAME:
                 clearInputFields(inputFields);
-                inputFields.getChildren().addAll(text1, createOnX, createOnY, length, inputError1, createBtn,
+                inputFields.getChildren().addAll(text1, createOnX, createOnY, x1, y1, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, buttons);
                 break;
         }
@@ -508,8 +509,10 @@ public class Main extends Application {
         radius.setPromptText("Задать радиус");
         changedRadius = new TextField();
         changedRadius.setPromptText("Задать радиус");
-        length = new TextField();
-        length.setPromptText("Задать длину");
+        x1 = new TextField();
+        x1.setPromptText("Задать конечную точку X");
+        y1 = new TextField();
+        y1.setPromptText("Задать конечную точку Y");
         changedLength = new TextField();
         changedLength.setPromptText("Задать длину");
         height = new TextField();
