@@ -12,27 +12,35 @@ public class Circle {
     private double radius;
     private boolean visibility;
 
-    public Circle(double x, double y, double radius) {
-        this.radius = radius;
+    public Circle(double x, double y, double radius, double canvasHeight, double canvasWidth, boolean modifyCoordsFlag) {
+        /*if (modifyCoordsFlag){
+            center = new Point(modifyCoordToCenterCoord(x, radius), modifyCoordToCenterCoord(y, radius));
+        }*/
         center = new Point(x, y);
+        checkFittingIn(center.getX(), center.getY(), radius, canvasHeight, canvasWidth);
+        this.radius = radius;
         visibility = true;
-        // TODO: implement checkFittingIn();
         System.out.println("Object Circle has been created!");
     }
 
-    public Circle(){
-        center = new Point(Math.random() * 1000, Math.random() * 1000);
+    public Circle(double canvasHeight, double canvasWidth){
+        center = new Point(Math.random() * canvasWidth, Math.random() * canvasHeight);
         radius = Math.random() * 100;
+        checkFittingIn(center.getX(), center.getY(), radius, canvasHeight, canvasWidth);
         visibility = true;
-        // TODO: implement checkFittingIn();
         System.out.println("Object Circle has been created!");
     }
 
     public void show(GraphicsContext gc){
         if (visibility) {
-            String color = "#00FF00";
             gc.setFill(Color.RED);
-            gc.fillOval(center.getX(), center.getY(), radius, radius);
+            gc.fillOval(center.getX()-radius, center.getY()-radius, radius*2, radius*2);
+        }
+    }
+    public void show(GraphicsContext gc, Paint p){
+        if (visibility) {
+            gc.setFill(p);
+            gc.fillOval(center.getX()-radius, center.getY()-radius, radius*2, radius*2);
         }
     }
 
@@ -53,7 +61,31 @@ public class Circle {
         return visibility;
     }
 
-    private void checkFittingIn(Canvas c, GraphicsContext gc){
+    private void checkFittingIn(double x, double y, double radius, double cHeight, double cWidth){
+        if (x + radius > cWidth){
+            center.setX(cWidth - radius);
+        }
+        if (x < 0 || x - radius < 0){
+            //TODO: counting doesn't correct
+            center.setX(0);
+        }
+        if (y + radius > cHeight){
+            center.setY(cHeight - radius);
+        }
+        if (y < 0 || y - radius < 0){
+            center.setY(0);
+        }
+    }
 
+//    private double modifyCoordToCenterCoord(double coord, double radius) {
+//        return coord - Math.sqrt(radius*radius/2);
+//    }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public double getRadius() {
+        return radius;
     }
 }

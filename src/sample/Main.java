@@ -36,6 +36,7 @@ public class Main extends Application {
     private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn;
     private ComboBox<String> chooseFigure;
     private ArrayList<Circle> circlesList = new ArrayList<>();
+    private ArrayList<Ring> ringsList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
     private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME,
@@ -47,7 +48,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Second Lab");
+        primaryStage.setTitle("Third Lab");
         HBox root = new HBox();
 
         Rectangle2D rectangle2D = Screen.getPrimary().getVisualBounds();
@@ -122,11 +123,29 @@ public class Main extends Application {
                             isInputCorrect(radius.getText(), DIMENSION);
 
                             circlesList.add(new Circle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    toDouble(radius.getText())));
+                                    toDouble(radius.getText()), canvas.getHeight(), canvas.getWidth(), true));
                             rectangleList.add(null);
                             linesList.add(null);
+                            ringsList.add(null);
 
                             circlesList.get(circlesList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Ring.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(radius.getText(), DIMENSION);
+
+                            ringsList.add(new Ring(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(radius.getText()), canvas.getHeight(), canvas.getWidth()));
+                            rectangleList.add(null);
+                            linesList.add(null);
+                            circlesList.add(null);
+
+                            ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
                             inputError1.setVisible(true);
                         }
@@ -142,6 +161,7 @@ public class Main extends Application {
                                     toDouble(height.getText()), toDouble(width.getText())));
                             circlesList.add(null);
                             linesList.add(null);
+                            ringsList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -158,6 +178,7 @@ public class Main extends Application {
                                     toDouble(length.getText())));
                             circlesList.add(null);
                             rectangleList.add(null);
+                            ringsList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -173,16 +194,26 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 switch (chooseFigure.getValue()){
                     case Circle.NAME:
-                        circlesList.add(new Circle());
+                        circlesList.add(new Circle(canvas.getHeight(), canvas.getWidth()));
                         rectangleList.add(null);
                         linesList.add(null);
+                        ringsList.add(null);
 
                         circlesList.get(circlesList.size() - 1).show(graphicsContext);
+                        break;
+                    case Ring.NAME:
+                        ringsList.add(new Ring(canvas.getHeight(), canvas.getWidth()));
+                        rectangleList.add(null);
+                        linesList.add(null);
+                        circlesList.add(null);
+
+                        ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         break;
                     case Rectangle.NAME:
                             rectangleList.add(new Rectangle());
                             circlesList.add(null);
                             linesList.add(null);
+                            ringsList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         break;
@@ -190,6 +221,7 @@ public class Main extends Application {
                             linesList.add(new Line());
                             circlesList.add(null);
                             rectangleList.add(null);
+                            ringsList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
                         break;
@@ -201,12 +233,35 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 if (circlesList.size() != 0){
                     inputError2.setVisible(false);
+
                     switch (chooseFigure.getValue()){
                         case Circle.NAME:
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
                                 for (Circle c : circlesList){
+                                    if (c != null){
+
+                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            c.changeRadius(toDouble(changedRadius.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                        case Ring.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Ring c : ringsList){
                                     if (c != null){
 
                                         if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
@@ -286,6 +341,15 @@ public class Main extends Application {
                             clearCanvas(canvas, graphicsContext);
                             drawAgain(graphicsContext);
                             break;
+                        case Ring.NAME:
+                            for (Ring c : ringsList){
+                                if (c != null){
+                                    c.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
                         case Rectangle.NAME:
                             for (Rectangle r : rectangleList){
                                 if (r != null){
@@ -315,6 +379,15 @@ public class Main extends Application {
                     switch (chooseFigure.getValue()){
                         case Circle.NAME:
                             for (Circle c : circlesList){
+                                if (c != null){
+                                    c.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Ring.NAME:
+                            for (Ring c : ringsList){
                                 if (c != null){
                                     c.setVisibility(true);
                                 }
@@ -352,6 +425,7 @@ public class Main extends Application {
                     circlesList.clear();
                     rectangleList.clear();
                     linesList.clear();
+                    ringsList.clear();
                 }
             }
         });
@@ -479,6 +553,9 @@ public class Main extends Application {
         for (int i = 0; i < circlesList.size(); i++){
             if (circlesList.get(i) != null) {
                 if (circlesList.get(i).getVisibility()) circlesList.get(i).show(gc);
+            }
+            if (ringsList.get(i) != null) {
+                if (ringsList.get(i).getVisibility()) ringsList.get(i).show(gc);
             }
             if (rectangleList.get(i) != null){
                 if (rectangleList.get(i).getVisibility()) rectangleList.get(i).show(gc);
