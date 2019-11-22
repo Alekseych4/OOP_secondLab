@@ -67,13 +67,13 @@ public class Circle {
         }
         if (x < 0 || x - radius < 0){
             //TODO: counting doesn't correct
-            center.setX(0);
+            center.setX(radius);
         }
         if (y + radius > cHeight){
             center.setY(cHeight - radius);
         }
         if (y < 0 || y - radius < 0){
-            center.setY(0);
+            center.setY(radius);
         }
     }
 

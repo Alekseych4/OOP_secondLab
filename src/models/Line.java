@@ -54,4 +54,20 @@ public class Line {
     public boolean getVisibility() {
         return visibility;
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getX1() {
+        return x1;
+    }
+
+    public double getY1() {
+        return y1;
+    }
 }

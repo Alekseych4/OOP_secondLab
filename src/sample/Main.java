@@ -19,10 +19,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import models.Circle;
-import models.Line;
-import models.Rectangle;
-import models.Ring;
+import models.*;
 
 import java.util.ArrayList;
 
@@ -39,8 +36,9 @@ public class Main extends Application {
     private ArrayList<Ring> ringsList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
+    private ArrayList<Bicycle> bicyclesList = new ArrayList<>();
     private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME,
-            Ring.NAME);
+            Ring.NAME, Bicycle.NAME);
     private static final String COORDINATE = "COORDINATE";
     private static final String DIMENSION = "DIMENSION";
 
@@ -127,6 +125,7 @@ public class Main extends Application {
                             rectangleList.add(null);
                             linesList.add(null);
                             ringsList.add(null);
+                            bicyclesList.add(null);
 
                             circlesList.get(circlesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -144,6 +143,7 @@ public class Main extends Application {
                             rectangleList.add(null);
                             linesList.add(null);
                             circlesList.add(null);
+                            bicyclesList.add(null);
 
                             ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -162,6 +162,7 @@ public class Main extends Application {
                             circlesList.add(null);
                             linesList.add(null);
                             ringsList.add(null);
+                            bicyclesList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -180,8 +181,26 @@ public class Main extends Application {
                             circlesList.add(null);
                             rectangleList.add(null);
                             ringsList.add(null);
+                            bicyclesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Bicycle.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+
+                            bicyclesList.add(new Bicycle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    canvas.getHeight(), canvas.getWidth()));
+                            linesList.add(null);
+                            circlesList.add(null);
+                            rectangleList.add(null);
+                            ringsList.add(null);
+
+                            bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
                             inputError1.setVisible(true);
                         }
@@ -199,6 +218,7 @@ public class Main extends Application {
                         rectangleList.add(null);
                         linesList.add(null);
                         ringsList.add(null);
+                        bicyclesList.add(null);
 
                         circlesList.get(circlesList.size() - 1).show(graphicsContext);
                         break;
@@ -207,6 +227,7 @@ public class Main extends Application {
                         rectangleList.add(null);
                         linesList.add(null);
                         circlesList.add(null);
+                        bicyclesList.add(null);
 
                         ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         break;
@@ -215,6 +236,7 @@ public class Main extends Application {
                             circlesList.add(null);
                             linesList.add(null);
                             ringsList.add(null);
+                            bicyclesList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         break;
@@ -223,8 +245,18 @@ public class Main extends Application {
                             circlesList.add(null);
                             rectangleList.add(null);
                             ringsList.add(null);
+                            bicyclesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
+                        break;
+                    case Bicycle.NAME:
+                        bicyclesList.add(new Bicycle(canvas.getHeight(), canvas.getWidth()));
+                        circlesList.add(null);
+                        rectangleList.add(null);
+                        ringsList.add(null);
+                        linesList.add(null);
+
+                        bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
                         break;
                 }
             }
@@ -324,6 +356,21 @@ public class Main extends Application {
                                 inputError2.setVisible(true);
                             }
                             break;
+                        case Bicycle.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Bicycle l : bicyclesList){
+                                    if (l != null){
+                                        l.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
                     }
                 }
             }
@@ -362,6 +409,15 @@ public class Main extends Application {
                             break;
                         case Line.NAME:
                             for (Line l : linesList){
+                                if (l != null){
+                                    l.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Bicycle.NAME:
+                            for (Bicycle l : bicyclesList){
                                 if (l != null){
                                     l.setVisibility(false);
                                 }
@@ -414,6 +470,15 @@ public class Main extends Application {
                             clearCanvas(canvas, graphicsContext);
                             drawAgain(graphicsContext);
                             break;
+                        case Bicycle.NAME:
+                            for (Bicycle l : bicyclesList){
+                                if (l != null){
+                                    l.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
                     }
                 }
             }
@@ -427,6 +492,7 @@ public class Main extends Application {
                     rectangleList.clear();
                     linesList.clear();
                     ringsList.clear();
+                    bicyclesList.clear();
                 }
             }
         });
@@ -489,6 +555,11 @@ public class Main extends Application {
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, x1, y1, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, buttons);
+                break;
+            case Bicycle.NAME:
+                clearInputFields(inputFields);
+                inputFields.getChildren().addAll(text1, createOnX, createOnY, inputError1, createBtn,
+                        createRandomBtn, text2, moveToX, moveToY, inputError2, buttons);
                 break;
         }
     }
@@ -565,6 +636,9 @@ public class Main extends Application {
             }
             if (linesList.get(i) != null) {
                 if (linesList.get(i).getVisibility()) linesList.get(i).show(gc);
+            }
+            if (bicyclesList.get(i) != null) {
+                if (bicyclesList.get(i).getVisibility()) bicyclesList.get(i).show(gc);
             }
         }
     }
