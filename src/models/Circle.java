@@ -5,10 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class Circle {
+public class Circle extends TFigure{
     public static final String NAME = "круг";
 
-    private Point center;
     private double radius;
     private boolean visibility;
 
@@ -16,37 +15,40 @@ public class Circle {
         /*if (modifyCoordsFlag){
             center = new Point(modifyCoordToCenterCoord(x, radius), modifyCoordToCenterCoord(y, radius));
         }*/
-        center = new Point(x, y);
-        checkFittingIn(center.getX(), center.getY(), radius, canvasHeight, canvasWidth);
+        super(new Point(x, y));
+        checkFittingIn(getCoords().getX(), getCoords().getY(), radius, canvasHeight, canvasWidth);
         this.radius = radius;
         visibility = true;
         System.out.println("Object Circle has been created!");
     }
 
     public Circle(double canvasHeight, double canvasWidth){
-        center = new Point(Math.random() * canvasWidth, Math.random() * canvasHeight);
+        super(new Point(Math.random() * canvasWidth, Math.random() * canvasHeight));
         radius = Math.random() * 100;
-        checkFittingIn(center.getX(), center.getY(), radius, canvasHeight, canvasWidth);
+        checkFittingIn(getCoords().getX(), getCoords().getY(), radius, canvasHeight, canvasWidth);
         visibility = true;
         System.out.println("Object Circle has been created!");
     }
 
+    @Override
     public void show(GraphicsContext gc){
         if (visibility) {
             gc.setFill(Color.RED);
-            gc.fillOval(center.getX()-radius, center.getY()-radius, radius*2, radius*2);
-        }
-    }
-    public void show(GraphicsContext gc, Paint p){
-        if (visibility) {
-            gc.setFill(p);
-            gc.fillOval(center.getX()-radius, center.getY()-radius, radius*2, radius*2);
+            gc.fillOval(getCoords().getX()-radius, getCoords().getY()-radius, radius*2, radius*2);
         }
     }
 
+    public void show(GraphicsContext gc, Paint p){
+        if (visibility) {
+            gc.setFill(p);
+            gc.fillOval(getCoords().getX()-radius, getCoords().getY()-radius, radius*2, radius*2);
+        }
+    }
+
+    @Override
     public void move(double biasX, double biasY){
-        center.setX(center.getX() + biasX);
-        center.setY(center.getY() + biasY);
+        getCoords().setX(getCoords().getX() + biasX);
+        getCoords().setY(getCoords().getY() + biasY);
     }
 
     public void changeRadius(double changedRadius){
@@ -63,17 +65,17 @@ public class Circle {
 
     private void checkFittingIn(double x, double y, double radius, double cHeight, double cWidth){
         if (x + radius > cWidth){
-            center.setX(cWidth - radius);
+            getCoords().setX(cWidth - radius);
         }
         if (x < 0 || x - radius < 0){
             //TODO: counting doesn't correct
-            center.setX(radius);
+            getCoords().setX(radius);
         }
         if (y + radius > cHeight){
-            center.setY(cHeight - radius);
+            getCoords().setY(cHeight - radius);
         }
         if (y < 0 || y - radius < 0){
-            center.setY(radius);
+            getCoords().setY(radius);
         }
     }
 
@@ -82,7 +84,7 @@ public class Circle {
 //    }
 
     public Point getCenter() {
-        return center;
+        return getCoords();
     }
 
     public double getRadius() {
