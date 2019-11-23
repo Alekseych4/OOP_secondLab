@@ -90,4 +90,8 @@ public class Circle extends TFigure{
     public double getRadius() {
         return radius;
     }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
 }
