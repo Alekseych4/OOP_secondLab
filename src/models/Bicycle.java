@@ -1,6 +1,5 @@
 package models;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Bicycle {
@@ -26,11 +25,13 @@ public class Bicycle {
     private void initVariables(Point c, double cHeight, double cWidth){
         seat = new Line(c.getX() - 10, c.getY(), c.getX() + 10, c.getY());
         pole = new Line(c.getX(), c.getY(), c.getX(), c.getY() + 20);
-        skeleton = new Line(pole.getX1() - 30, pole.getY1(), pole.getX() + 30, pole.getY());
-        steering = new Line(skeleton.getX1(), skeleton.getY1() - 20, skeleton.getX1(), skeleton.getY1() + 20);
-        chain = new Line(skeleton.getX(), skeleton.getY(), pole.getX1(), pole.getY1());
-        rearWheel = new Ring(chain.getX(), chain.getY(), 10, cHeight, cWidth);
-        frontWheel = new Ring(steering.getX1(), steering.getY1() + 10, 10, cHeight, cWidth);
+        skeleton = new Line(pole.getEnd().getX() - 30, pole.getEnd().getY(), pole.getStart().getX() + 30,
+                pole.getStart().getY());
+        steering = new Line(skeleton.getEnd().getX(), skeleton.getEnd().getY() - 20, skeleton.getEnd().getX(),
+                skeleton.getEnd().getY() + 20);
+        chain = new Line(skeleton.getStart().getX(), skeleton.getStart().getY(), pole.getEnd().getX(), pole.getEnd().getY());
+        rearWheel = new Ring(chain.getStart().getX(), chain.getStart().getY(), 10, cHeight, cWidth);
+        frontWheel = new Ring(steering.getEnd().getX(), steering.getEnd().getY() + 10, 10, cHeight, cWidth);
     }
 
     public void show(GraphicsContext gc){
