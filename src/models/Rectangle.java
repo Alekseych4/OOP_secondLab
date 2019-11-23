@@ -6,23 +6,20 @@ import javafx.scene.paint.Paint;
 public class Rectangle {
     public static final String NAME = "прямоугольник";
 
-    private double x;
-    private double y;
+    private Point center;
     private double height;
     private double width;
     private boolean visibility;
 
     public Rectangle(double x, double y, double height, double width) {
-        this.x = x;
-        this.y = y;
+        center = new Point(x, y);
         this.height = height;
         this.width = width;
         visibility = true;
     }
 
     public Rectangle(){
-        x = Math.random() * 1000;
-        y = Math.random() * 1000;
+        center = new Point(Math.random() * 1000, Math.random() * 1000);
         height = Math.random() * 100;
         width = Math.random() * 100;
         visibility = true;
@@ -32,13 +29,13 @@ public class Rectangle {
         if (visibility) {
             String color = "#FF0000";
             gc.setFill(Paint.valueOf(color));
-            gc.fillRect(x, y, width, height);
+            gc.fillRect(center.getX(), center.getY(), width, height);
         }
     }
 
     public void move(double biasX, double biasY){
-        x += biasX;
-        y += biasY;
+        center.setX(center.getX() + biasX);
+        center.setY(center.getY() + biasY);
     }
 
     public void changeDimensions(double changedWidth, double changedHeight){
