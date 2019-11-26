@@ -1,11 +1,11 @@
 package models;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import sketches.TFigure;
 
-public class Circle extends TFigure{
+public class Circle extends TFigure {
     public static final String NAME = "круг";
 
     private double radius;
