@@ -28,17 +28,20 @@ public class Main extends Application {
     private VBox inputFields;
     private HBox text1, text2, buttons;
     private TextField createOnX, createOnY, moveToX, moveToY, radius, changedRadius, x1, y1, changedLength,
-            height, width, changedHeight, changedWidth;
+            height, width, changedHeight, changedWidth, radius1, changedRadius1;
     private Label figureName1, figureName2, movement, creation, inputError1, inputError2;
-    private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn;
+    private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn, flipEllipse;
     private ComboBox<String> chooseFigure;
     private ArrayList<Circle> circlesList = new ArrayList<>();
     private ArrayList<Ring> ringsList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
     private ArrayList<Bicycle> bicyclesList = new ArrayList<>();
+    private ArrayList<Rhombus> rhombusList = new ArrayList<>();
+    private ArrayList<Trapezium> trapeziumList = new ArrayList<>();
+    private ArrayList<Ellipse> ellipsesList = new ArrayList<>();
     private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME,
-            Ring.NAME, Bicycle.NAME);
+            Ring.NAME, Bicycle.NAME, Rhombus.NAME, Trapezium.NAME, Ellipse.NAME);
     private static final String COORDINATE = "COORDINATE";
     private static final String DIMENSION = "DIMENSION";
 
@@ -46,7 +49,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Third Lab");
+        primaryStage.setTitle("Fourth Lab");
         HBox root = new HBox();
 
         Rectangle2D rectangle2D = Screen.getPrimary().getVisualBounds();
@@ -71,6 +74,12 @@ public class Main extends Application {
         t1.setShowDelay(Duration.ZERO);
         showBtn.setTooltip(t1);
         clearAllBtn = new Button("Очистить холст");
+        flipEllipse = new Button("Перевернуть эллипс");
+        Tooltip t2 = new Tooltip("Переворачивает только эллипс!");
+        t2.setShowDelay(Duration.ZERO);
+        flipEllipse.setTooltip(t2);
+        flipEllipse.setVisible(false);
+
 
         buttons = new HBox(16);
         buttons.setAlignment(Pos.CENTER);
@@ -91,6 +100,7 @@ public class Main extends Application {
                     setSpecificTools(chooseFigure.getValue());
                     inputError1.setVisible(false);
                     inputError2.setVisible(false);
+                    flipEllipse.setVisible(true);
                 }
             }
         });
@@ -126,6 +136,9 @@ public class Main extends Application {
                             linesList.add(null);
                             ringsList.add(null);
                             bicyclesList.add(null);
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
 
                             circlesList.get(circlesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -144,6 +157,9 @@ public class Main extends Application {
                             linesList.add(null);
                             circlesList.add(null);
                             bicyclesList.add(null);
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
 
                             ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -163,6 +179,9 @@ public class Main extends Application {
                             linesList.add(null);
                             ringsList.add(null);
                             bicyclesList.add(null);
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -182,6 +201,9 @@ public class Main extends Application {
                             rectangleList.add(null);
                             ringsList.add(null);
                             bicyclesList.add(null);
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
@@ -199,8 +221,77 @@ public class Main extends Application {
                             circlesList.add(null);
                             rectangleList.add(null);
                             ringsList.add(null);
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
 
                             bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Rhombus.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(height.getText(), DIMENSION);
+                            isInputCorrect(width.getText(), DIMENSION);
+
+                            bicyclesList.add(null);
+                            linesList.add(null);
+                            circlesList.add(null);
+                            rectangleList.add(null);
+                            ringsList.add(null);
+                            rhombusList.add(new Rhombus(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(height.getText()), toDouble(width.getText())));
+                            trapeziumList.add(null);
+                            ellipsesList.add(null);
+
+                            rhombusList.get(rhombusList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Trapezium.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(height.getText(), DIMENSION);
+                            isInputCorrect(width.getText(), DIMENSION);
+
+                            bicyclesList.add(null);
+                            linesList.add(null);
+                            circlesList.add(null);
+                            rectangleList.add(null);
+                            ringsList.add(null);
+                            trapeziumList.add(new Trapezium(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(height.getText()), toDouble(width.getText())));
+                            rhombusList.add(null);
+                            ellipsesList.add(null);
+
+                            trapeziumList.get(trapeziumList.size() - 1).show(graphicsContext);
+                        }catch (Exception e){
+                            inputError1.setVisible(true);
+                        }
+                        break;
+                    case Ellipse.NAME:
+                        try{
+                            isInputCorrect(createOnX.getText(), COORDINATE);
+                            isInputCorrect(createOnY.getText(), COORDINATE);
+                            isInputCorrect(radius.getText(), DIMENSION);
+                            isInputCorrect(radius1.getText(), DIMENSION);
+
+                            bicyclesList.add(null);
+                            linesList.add(null);
+                            circlesList.add(null);
+                            rectangleList.add(null);
+                            ringsList.add(null);
+                            ellipsesList.add(new Ellipse(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
+                                    toDouble(radius.getText()), toDouble(radius1.getText()), canvas.getHeight(), canvas.getWidth(), true));
+                            rhombusList.add(null);
+                            trapeziumList.add(null);
+
+                            ellipsesList.get(ellipsesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
                             inputError1.setVisible(true);
                         }
@@ -219,6 +310,9 @@ public class Main extends Application {
                         linesList.add(null);
                         ringsList.add(null);
                         bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
 
                         circlesList.get(circlesList.size() - 1).show(graphicsContext);
                         break;
@@ -228,6 +322,9 @@ public class Main extends Application {
                         linesList.add(null);
                         circlesList.add(null);
                         bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
 
                         ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         break;
@@ -237,6 +334,9 @@ public class Main extends Application {
                             linesList.add(null);
                             ringsList.add(null);
                             bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
 
                             rectangleList.get(rectangleList.size() - 1).show(graphicsContext);
                         break;
@@ -246,6 +346,9 @@ public class Main extends Application {
                             rectangleList.add(null);
                             ringsList.add(null);
                             bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
                         break;
@@ -255,8 +358,47 @@ public class Main extends Application {
                         rectangleList.add(null);
                         ringsList.add(null);
                         linesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
 
                         bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
+                        break;
+                    case Trapezium.NAME:
+                        rectangleList.add(null);
+                        circlesList.add(null);
+                        linesList.add(null);
+                        ringsList.add(null);
+                        bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(new Trapezium());
+                        ellipsesList.add(null);
+
+                        trapeziumList.get(trapeziumList.size() - 1).show(graphicsContext);
+                        break;
+                    case Rhombus.NAME:
+                        rectangleList.add(null);
+                        circlesList.add(null);
+                        linesList.add(null);
+                        ringsList.add(null);
+                        bicyclesList.add(null);
+                        rhombusList.add(new Rhombus());
+                        trapeziumList.add(null);
+                        ellipsesList.add(null);
+
+                        rhombusList.get(rhombusList.size() - 1).show(graphicsContext);
+                        break;
+                    case Ellipse.NAME:
+                        circlesList.add(null);
+                        rectangleList.add(null);
+                        linesList.add(null);
+                        ringsList.add(null);
+                        bicyclesList.add(null);
+                        rhombusList.add(null);
+                        trapeziumList.add(null);
+                        ellipsesList.add(new Ellipse(canvas.getHeight(), canvas.getWidth()));
+
+                        ellipsesList.get(ellipsesList.size() - 1).show(graphicsContext);
                         break;
                 }
             }
@@ -371,6 +513,76 @@ public class Main extends Application {
                                 inputError2.setVisible(true);
                             }
                             break;
+                        case Trapezium.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Trapezium r : trapeziumList){
+                                    if (r != null){
+                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            r.changeDimensions(toDouble(changedWidth.getText()),
+                                                    toDouble(changedHeight.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                        case Rhombus.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Rhombus r : rhombusList){
+                                    if (r != null){
+                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            r.changeDimensions(toDouble(changedWidth.getText()),
+                                                    toDouble(changedHeight.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
+                        case Ellipse.NAME:
+                            try{
+                                isInputCorrect(moveToX.getText(), COORDINATE);
+                                isInputCorrect(moveToY.getText(), COORDINATE);
+                                for (Ellipse c : ellipsesList){
+                                    if (c != null){
+
+                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION) &&
+                                                !isOptionalFieldCorrect(changedRadius1.getText(), DIMENSION)){
+                                            // If optional field is null, this code is executed
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }else {
+                                            c.changeRadii(toDouble(changedRadius.getText()),
+                                                    toDouble(changedRadius1.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                        }
+                                    }
+                                }
+                                clearCanvas(canvas, graphicsContext);
+                                drawAgain(graphicsContext);
+                            }catch (Exception e){
+                                inputError2.setVisible(true);
+                            }
+                            break;
                     }
                 }
             }
@@ -420,6 +632,33 @@ public class Main extends Application {
                             for (Bicycle l : bicyclesList){
                                 if (l != null){
                                     l.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Rhombus.NAME:
+                            for (Rhombus r : rhombusList){
+                                if (r != null){
+                                    r.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Trapezium.NAME:
+                            for (Trapezium r : trapeziumList){
+                                if (r != null){
+                                    r.setVisibility(false);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Ellipse.NAME:
+                            for (Ellipse c : ellipsesList){
+                                if (c != null){
+                                    c.setVisibility(false);
                                 }
                             }
                             clearCanvas(canvas, graphicsContext);
@@ -479,6 +718,33 @@ public class Main extends Application {
                             clearCanvas(canvas, graphicsContext);
                             drawAgain(graphicsContext);
                             break;
+                        case Ellipse.NAME:
+                            for (Ellipse c : ellipsesList){
+                                if (c != null){
+                                    c.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Rhombus.NAME:
+                            for (Rhombus r : rhombusList){
+                                if (r != null){
+                                    r.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
+                        case Trapezium.NAME:
+                            for (Trapezium r : trapeziumList){
+                                if (r != null){
+                                    r.setVisibility(true);
+                                }
+                            }
+                            clearCanvas(canvas, graphicsContext);
+                            drawAgain(graphicsContext);
+                            break;
                     }
                 }
             }
@@ -493,7 +759,22 @@ public class Main extends Application {
                     linesList.clear();
                     ringsList.clear();
                     bicyclesList.clear();
+                    trapeziumList.clear();
+                    rhombusList.clear();
+                    ellipsesList.clear();
                 }
+            }
+        });
+        flipEllipse.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for (Ellipse e : ellipsesList){
+                    if (e != null){
+                        e.flip();
+                    }
+                }
+                clearCanvas(canvas, graphicsContext);
+                drawAgain(graphicsContext);
             }
         });
 
@@ -546,6 +827,8 @@ public class Main extends Application {
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, buttons);
                 break;
+            case Rhombus.NAME:
+            case Trapezium.NAME:
             case Rectangle.NAME:
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, height, width, inputError1, createBtn,
@@ -560,6 +843,12 @@ public class Main extends Application {
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, inputError2, buttons);
+                break;
+            case Ellipse.NAME:
+                clearInputFields(inputFields);
+                inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, radius1, inputError1, createBtn,
+                        createRandomBtn, text2, moveToX, moveToY, changedRadius, changedRadius1,  inputError2, flipEllipse,
+                        buttons);
                 break;
         }
     }
@@ -578,8 +867,12 @@ public class Main extends Application {
         moveToY.setPromptText("Задать Y");
         radius = new TextField();
         radius.setPromptText("Задать радиус");
+        radius1 = new TextField();
+        radius1.setPromptText("Задать второй радиус");
         changedRadius = new TextField();
         changedRadius.setPromptText("Задать радиус");
+        changedRadius1 = new TextField();
+        changedRadius1.setPromptText("Задать второй радиус");
         x1 = new TextField();
         x1.setPromptText("Задать конечную точку X");
         y1 = new TextField();
@@ -639,6 +932,15 @@ public class Main extends Application {
             }
             if (bicyclesList.get(i) != null) {
                 if (bicyclesList.get(i).getVisibility()) bicyclesList.get(i).show(gc);
+            }
+            if (rhombusList.get(i) != null){
+                if (rhombusList.get(i).getVisibility()) rhombusList.get(i).show(gc);
+            }
+            if (trapeziumList.get(i) != null){
+                if (trapeziumList.get(i).getVisibility()) trapeziumList.get(i).show(gc);
+            }
+            if (ellipsesList.get(i) != null) {
+                if (ellipsesList.get(i).getVisibility()) ellipsesList.get(i).show(gc);
             }
         }
     }

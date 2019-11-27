@@ -39,9 +39,15 @@ public class Quadrangle extends TFigure {
     public void move(double biasX, double biasY) {
         getCoords().setX(biasX + getCoords().getX());
         getCoords().setY(biasY + getCoords().getY());
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
-    protected void setPointsOfQuadrangle(){}
+    public void changeDimensions(double changedWidth, double changedHeight){
+        setHeight(changedHeight);
+        setWidth(changedWidth);
+    }
+
+    protected void setPointsOfQuadrangle(double x, double y){}
 
     public double getHeight() {
         return height;

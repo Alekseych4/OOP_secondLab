@@ -7,24 +7,17 @@ public class Rectangle extends Quadrangle {
 
     public Rectangle(double x, double y, double height, double width) {
         super(x, y, height, width);
-        setPointsOfQuadrangle();
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     public Rectangle() {
         super();
-        setPointsOfQuadrangle();
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     @Override
-    protected void setPointsOfQuadrangle() {
-        setxArray(new double[]{getCoords().getX(), getCoords().getX() + getWidth(), getCoords().getX() + getWidth(),
-                getCoords().getX()});
-        setyArray(new double[]{getCoords().getY(), getCoords().getY(), getCoords().getY() + getHeight(),
-                getCoords().getY() + getHeight()});
-    }
-
-    public void changeDimensions(double changedWidth, double changedHeight){
-        setHeight(changedHeight);
-        setWidth(changedWidth);
+    protected void setPointsOfQuadrangle(double x, double y) {
+        setxArray(new double[]{x, x + getWidth(), x + getWidth(), x});
+        setyArray(new double[]{y, y, y + getHeight(), y + getHeight()});
     }
 }

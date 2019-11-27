@@ -1,25 +1,26 @@
 package models;
 
-import javafx.scene.canvas.GraphicsContext;
 import sketches.Quadrangle;
 
+import java.util.Arrays;
+
 public class Trapezium extends Quadrangle {
+    public static final String NAME = "трапецию";
     public Trapezium(double x, double y, double height, double width) {
         super(x, y, height, width);
-        setPointsOfQuadrangle();
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     public Trapezium() {
         super();
-        setPointsOfQuadrangle();
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     @Override
-    protected void setPointsOfQuadrangle(){
-        setxArray(new double[]{getCoords().getX(), getCoords().getX() + getWidth() - getHeight(),
-                getCoords().getX() + getWidth() - getHeight()/2,
-                getCoords().getX() - getHeight() / 2});
-        setyArray(new double[]{getCoords().getY(), getCoords().getY(), getCoords().getY() + getHeight(),
-                getCoords().getY() + getHeight()});
+    protected void setPointsOfQuadrangle(double x, double y){
+        setxArray(new double[]{x, x + getWidth(), x + getWidth() + getHeight()/2, x - getHeight() / 2});
+        System.out.println("X Array: " + Arrays.toString(getxArray()));
+        setyArray(new double[]{y, y, y + getHeight(), y + getHeight()});
+        System.out.println("Y Array: " + Arrays.toString(getyArray()));
     }
 }
