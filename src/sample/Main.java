@@ -33,15 +33,13 @@ public class Main extends Application {
     private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn, flipEllipse;
     private ComboBox<String> chooseFigure;
     private ArrayList<Circle> circlesList = new ArrayList<>();
-    private ArrayList<Ring> ringsList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
-    private ArrayList<Bicycle> bicyclesList = new ArrayList<>();
     private ArrayList<Rhombus> rhombusList = new ArrayList<>();
     private ArrayList<Trapezium> trapeziumList = new ArrayList<>();
     private ArrayList<Ellipse> ellipsesList = new ArrayList<>();
     private ObservableList<String> figuresNames = FXCollections.observableArrayList(Circle.NAME, Rectangle.NAME, Line.NAME,
-            Ring.NAME, Bicycle.NAME, Rhombus.NAME, Trapezium.NAME, Ellipse.NAME);
+            Rhombus.NAME, Trapezium.NAME, Ellipse.NAME);
     private static final String COORDINATE = "COORDINATE";
     private static final String DIMENSION = "DIMENSION";
 
@@ -134,34 +132,11 @@ public class Main extends Application {
                                     toDouble(radius.getText()), canvas.getHeight(), canvas.getWidth(), true));
                             rectangleList.add(null);
                             linesList.add(null);
-                            ringsList.add(null);
-                            bicyclesList.add(null);
                             rhombusList.add(null);
                             trapeziumList.add(null);
                             ellipsesList.add(null);
 
                             circlesList.get(circlesList.size() - 1).show(graphicsContext);
-                        }catch (Exception e){
-                            inputError1.setVisible(true);
-                        }
-                        break;
-                    case Ring.NAME:
-                        try{
-                            isInputCorrect(createOnX.getText(), COORDINATE);
-                            isInputCorrect(createOnY.getText(), COORDINATE);
-                            isInputCorrect(radius.getText(), DIMENSION);
-
-                            ringsList.add(new Ring(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    toDouble(radius.getText()), canvas.getHeight(), canvas.getWidth()));
-                            rectangleList.add(null);
-                            linesList.add(null);
-                            circlesList.add(null);
-                            bicyclesList.add(null);
-                            rhombusList.add(null);
-                            trapeziumList.add(null);
-                            ellipsesList.add(null);
-
-                            ringsList.get(ringsList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
                             inputError1.setVisible(true);
                         }
@@ -177,8 +152,6 @@ public class Main extends Application {
                                     toDouble(height.getText()), toDouble(width.getText())));
                             circlesList.add(null);
                             linesList.add(null);
-                            ringsList.add(null);
-                            bicyclesList.add(null);
                             rhombusList.add(null);
                             trapeziumList.add(null);
                             ellipsesList.add(null);
@@ -199,33 +172,11 @@ public class Main extends Application {
                                     toDouble(x1.getText()), toDouble(y1.getText())));
                             circlesList.add(null);
                             rectangleList.add(null);
-                            ringsList.add(null);
-                            bicyclesList.add(null);
                             rhombusList.add(null);
                             trapeziumList.add(null);
                             ellipsesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
-                        }catch (Exception e){
-                            inputError1.setVisible(true);
-                        }
-                        break;
-                    case Bicycle.NAME:
-                        try{
-                            isInputCorrect(createOnX.getText(), COORDINATE);
-                            isInputCorrect(createOnY.getText(), COORDINATE);
-
-                            bicyclesList.add(new Bicycle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    canvas.getHeight(), canvas.getWidth()));
-                            linesList.add(null);
-                            circlesList.add(null);
-                            rectangleList.add(null);
-                            ringsList.add(null);
-                            rhombusList.add(null);
-                            trapeziumList.add(null);
-                            ellipsesList.add(null);
-
-                            bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
                         }catch (Exception e){
                             inputError1.setVisible(true);
                         }
@@ -237,11 +188,9 @@ public class Main extends Application {
                             isInputCorrect(height.getText(), DIMENSION);
                             isInputCorrect(width.getText(), DIMENSION);
 
-                            bicyclesList.add(null);
                             linesList.add(null);
                             circlesList.add(null);
                             rectangleList.add(null);
-                            ringsList.add(null);
                             rhombusList.add(new Rhombus(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
                                     toDouble(height.getText()), toDouble(width.getText())));
                             trapeziumList.add(null);
@@ -259,11 +208,9 @@ public class Main extends Application {
                             isInputCorrect(height.getText(), DIMENSION);
                             isInputCorrect(width.getText(), DIMENSION);
 
-                            bicyclesList.add(null);
                             linesList.add(null);
                             circlesList.add(null);
                             rectangleList.add(null);
-                            ringsList.add(null);
                             trapeziumList.add(new Trapezium(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
                                     toDouble(height.getText()), toDouble(width.getText())));
                             rhombusList.add(null);
@@ -281,11 +228,9 @@ public class Main extends Application {
                             isInputCorrect(radius.getText(), DIMENSION);
                             isInputCorrect(radius1.getText(), DIMENSION);
 
-                            bicyclesList.add(null);
                             linesList.add(null);
                             circlesList.add(null);
                             rectangleList.add(null);
-                            ringsList.add(null);
                             ellipsesList.add(new Ellipse(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
                                     toDouble(radius.getText()), toDouble(radius1.getText()), canvas.getHeight(), canvas.getWidth(), true));
                             rhombusList.add(null);
@@ -308,32 +253,16 @@ public class Main extends Application {
                         circlesList.add(new Circle(canvas.getHeight(), canvas.getWidth()));
                         rectangleList.add(null);
                         linesList.add(null);
-                        ringsList.add(null);
-                        bicyclesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(null);
                         ellipsesList.add(null);
 
                         circlesList.get(circlesList.size() - 1).show(graphicsContext);
                         break;
-                    case Ring.NAME:
-                        ringsList.add(new Ring(canvas.getHeight(), canvas.getWidth()));
-                        rectangleList.add(null);
-                        linesList.add(null);
-                        circlesList.add(null);
-                        bicyclesList.add(null);
-                        rhombusList.add(null);
-                        trapeziumList.add(null);
-                        ellipsesList.add(null);
-
-                        ringsList.get(ringsList.size() - 1).show(graphicsContext);
-                        break;
                     case Rectangle.NAME:
                             rectangleList.add(new Rectangle());
                             circlesList.add(null);
                             linesList.add(null);
-                            ringsList.add(null);
-                            bicyclesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(null);
                         ellipsesList.add(null);
@@ -344,32 +273,16 @@ public class Main extends Application {
                             linesList.add(new Line());
                             circlesList.add(null);
                             rectangleList.add(null);
-                            ringsList.add(null);
-                            bicyclesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(null);
                         ellipsesList.add(null);
 
                             linesList.get(linesList.size() - 1).show(graphicsContext);
                         break;
-                    case Bicycle.NAME:
-                        bicyclesList.add(new Bicycle(canvas.getHeight(), canvas.getWidth()));
-                        circlesList.add(null);
-                        rectangleList.add(null);
-                        ringsList.add(null);
-                        linesList.add(null);
-                        rhombusList.add(null);
-                        trapeziumList.add(null);
-                        ellipsesList.add(null);
-
-                        bicyclesList.get(bicyclesList.size() - 1).show(graphicsContext);
-                        break;
                     case Trapezium.NAME:
                         rectangleList.add(null);
                         circlesList.add(null);
                         linesList.add(null);
-                        ringsList.add(null);
-                        bicyclesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(new Trapezium());
                         ellipsesList.add(null);
@@ -380,8 +293,6 @@ public class Main extends Application {
                         rectangleList.add(null);
                         circlesList.add(null);
                         linesList.add(null);
-                        ringsList.add(null);
-                        bicyclesList.add(null);
                         rhombusList.add(new Rhombus());
                         trapeziumList.add(null);
                         ellipsesList.add(null);
@@ -392,8 +303,6 @@ public class Main extends Application {
                         circlesList.add(null);
                         rectangleList.add(null);
                         linesList.add(null);
-                        ringsList.add(null);
-                        bicyclesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(null);
                         ellipsesList.add(new Ellipse(canvas.getHeight(), canvas.getWidth()));
@@ -419,32 +328,10 @@ public class Main extends Application {
 
                                         if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }else {
                                             c.changeRadius(toDouble(changedRadius.getText()));
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
-                                        }
-                                    }
-                                }
-                                clearCanvas(canvas, graphicsContext);
-                                drawAgain(graphicsContext);
-                            }catch (Exception e){
-                                inputError2.setVisible(true);
-                            }
-                            break;
-                        case Ring.NAME:
-                            try{
-                                isInputCorrect(moveToX.getText(), COORDINATE);
-                                isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Ring c : ringsList){
-                                    if (c != null){
-
-                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
-                                        }else {
-                                            c.changeRadius(toDouble(changedRadius.getText()));
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }
                                     }
                                 }
@@ -463,11 +350,11 @@ public class Main extends Application {
                                         if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
                                                 !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }else {
                                             r.changeDimensions(toDouble(changedWidth.getText()),
                                                     toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }
                                     }
                                 }
@@ -498,21 +385,6 @@ public class Main extends Application {
                                 inputError2.setVisible(true);
                             }
                             break;
-                        case Bicycle.NAME:
-                            try{
-                                isInputCorrect(moveToX.getText(), COORDINATE);
-                                isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Bicycle l : bicyclesList){
-                                    if (l != null){
-                                        l.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
-                                    }
-                                }
-                                clearCanvas(canvas, graphicsContext);
-                                drawAgain(graphicsContext);
-                            }catch (Exception e){
-                                inputError2.setVisible(true);
-                            }
-                            break;
                         case Trapezium.NAME:
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
@@ -522,11 +394,11 @@ public class Main extends Application {
                                         if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
                                                 !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }else {
                                             r.changeDimensions(toDouble(changedWidth.getText()),
                                                     toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }
                                     }
                                 }
@@ -545,11 +417,11 @@ public class Main extends Application {
                                         if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
                                                 !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }else {
                                             r.changeDimensions(toDouble(changedWidth.getText()),
                                                     toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }
                                     }
                                 }
@@ -569,11 +441,11 @@ public class Main extends Application {
                                         if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION) &&
                                                 !isOptionalFieldCorrect(changedRadius1.getText(), DIMENSION)){
                                             // If optional field is null, this code is executed
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }else {
                                             c.changeRadii(toDouble(changedRadius.getText()),
                                                     toDouble(changedRadius1.getText()));
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()));
+                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
                                         }
                                     }
                                 }
@@ -601,15 +473,6 @@ public class Main extends Application {
                             clearCanvas(canvas, graphicsContext);
                             drawAgain(graphicsContext);
                             break;
-                        case Ring.NAME:
-                            for (Ring c : ringsList){
-                                if (c != null){
-                                    c.setVisibility(false);
-                                }
-                            }
-                            clearCanvas(canvas, graphicsContext);
-                            drawAgain(graphicsContext);
-                            break;
                         case Rectangle.NAME:
                             for (Rectangle r : rectangleList){
                                 if (r != null){
@@ -621,15 +484,6 @@ public class Main extends Application {
                             break;
                         case Line.NAME:
                             for (Line l : linesList){
-                                if (l != null){
-                                    l.setVisibility(false);
-                                }
-                            }
-                            clearCanvas(canvas, graphicsContext);
-                            drawAgain(graphicsContext);
-                            break;
-                        case Bicycle.NAME:
-                            for (Bicycle l : bicyclesList){
                                 if (l != null){
                                     l.setVisibility(false);
                                 }
@@ -682,15 +536,6 @@ public class Main extends Application {
                             clearCanvas(canvas, graphicsContext);
                             drawAgain(graphicsContext);
                             break;
-                        case Ring.NAME:
-                            for (Ring c : ringsList){
-                                if (c != null){
-                                    c.setVisibility(true);
-                                }
-                            }
-                            clearCanvas(canvas, graphicsContext);
-                            drawAgain(graphicsContext);
-                            break;
                         case Rectangle.NAME:
                             for (Rectangle r : rectangleList){
                                 if (r != null){
@@ -702,15 +547,6 @@ public class Main extends Application {
                             break;
                         case Line.NAME:
                             for (Line l : linesList){
-                                if (l != null){
-                                    l.setVisibility(true);
-                                }
-                            }
-                            clearCanvas(canvas, graphicsContext);
-                            drawAgain(graphicsContext);
-                            break;
-                        case Bicycle.NAME:
-                            for (Bicycle l : bicyclesList){
                                 if (l != null){
                                     l.setVisibility(true);
                                 }
@@ -757,8 +593,6 @@ public class Main extends Application {
                     circlesList.clear();
                     rectangleList.clear();
                     linesList.clear();
-                    ringsList.clear();
-                    bicyclesList.clear();
                     trapeziumList.clear();
                     rhombusList.clear();
                     ellipsesList.clear();
@@ -822,7 +656,6 @@ public class Main extends Application {
         figureName2.setText(name);
         switch (name) {
             case Circle.NAME:
-            case Ring.NAME:
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, buttons);
@@ -838,11 +671,6 @@ public class Main extends Application {
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, x1, y1, inputError1, createBtn,
                         createRandomBtn, text2, moveToX, moveToY, changedLength, inputError2, buttons);
-                break;
-            case Bicycle.NAME:
-                clearInputFields(inputFields);
-                inputFields.getChildren().addAll(text1, createOnX, createOnY, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, inputError2, buttons);
                 break;
             case Ellipse.NAME:
                 clearInputFields(inputFields);
@@ -921,17 +749,11 @@ public class Main extends Application {
             if (circlesList.get(i) != null) {
                 if (circlesList.get(i).getVisibility()) circlesList.get(i).show(gc);
             }
-            if (ringsList.get(i) != null) {
-                if (ringsList.get(i).getVisibility()) ringsList.get(i).show(gc);
-            }
             if (rectangleList.get(i) != null){
                 if (rectangleList.get(i).getVisibility()) rectangleList.get(i).show(gc);
             }
             if (linesList.get(i) != null) {
                 if (linesList.get(i).getVisibility()) linesList.get(i).show(gc);
-            }
-            if (bicyclesList.get(i) != null) {
-                if (bicyclesList.get(i).getVisibility()) bicyclesList.get(i).show(gc);
             }
             if (rhombusList.get(i) != null){
                 if (rhombusList.get(i).getVisibility()) rhombusList.get(i).show(gc);

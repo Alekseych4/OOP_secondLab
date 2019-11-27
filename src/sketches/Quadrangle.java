@@ -28,6 +28,7 @@ public class Quadrangle extends TFigure {
 
     @Override
     public void show(GraphicsContext gc) {
+        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
         if (visibility) {
             String color = "#00FF00";
             gc.setFill(Paint.valueOf(color));
@@ -35,19 +36,15 @@ public class Quadrangle extends TFigure {
         }
     }
 
-    @Override
-    public void move(double biasX, double biasY) {
-        getCoords().setX(biasX + getCoords().getX());
-        getCoords().setY(biasY + getCoords().getY());
-        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
-    }
+    protected void setPointsOfQuadrangle(double x, double y) {}
+
 
     public void changeDimensions(double changedWidth, double changedHeight){
         setHeight(changedHeight);
         setWidth(changedWidth);
     }
 
-    protected void setPointsOfQuadrangle(double x, double y){}
+
 
     public double getHeight() {
         return height;

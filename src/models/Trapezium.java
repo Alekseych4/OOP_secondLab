@@ -8,12 +8,10 @@ public class Trapezium extends Quadrangle {
     public static final String NAME = "трапецию";
     public Trapezium(double x, double y, double height, double width) {
         super(x, y, height, width);
-        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     public Trapezium() {
         super();
-        setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
     }
 
     @Override

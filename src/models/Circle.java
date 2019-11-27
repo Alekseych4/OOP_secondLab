@@ -45,12 +45,6 @@ public class Circle extends TFigure {
         }
     }
 
-    @Override
-    public void move(double biasX, double biasY){
-        getCoords().setX(getCoords().getX() + biasX);
-        getCoords().setY(getCoords().getY() + biasY);
-    }
-
     public void changeRadius(double changedRadius){
         radius = changedRadius;
     }

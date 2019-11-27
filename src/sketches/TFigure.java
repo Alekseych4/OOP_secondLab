@@ -11,11 +11,16 @@ public abstract class TFigure {
         System.out.println("Coordinates were initialized");
     }
 
-    public abstract void show(GraphicsContext gc);
+    public void show(GraphicsContext gc){}
 
-    public abstract void move(double biasX, double biasY);
+    public final void move(double biasX, double biasY, GraphicsContext gc){
+        getCoords().setX(biasX + getCoords().getX());
+        getCoords().setY(biasY + getCoords().getY());
 
-    public Point getCoords() {
+        show(gc);
+    }
+
+    protected Point getCoords() {
         return coords;
     }
 
