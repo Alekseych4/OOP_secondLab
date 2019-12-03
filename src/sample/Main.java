@@ -26,11 +26,12 @@ import java.util.ArrayList;
 public class Main extends Application {
 
     private VBox inputFields;
-    private HBox text1, text2, buttons;
+    private HBox text1, text2, buttons, arrayUI;
     private TextField createOnX, createOnY, moveToX, moveToY, radius, changedRadius, x1, y1, changedLength,
             height, width, changedHeight, changedWidth, radius1, changedRadius1;
-    private Label figureName1, figureName2, movement, creation, inputError1, inputError2;
-    private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn, flipEllipse;
+    private Label figureName1, figureName2, movement, creation, inputError1, inputError2, arraySection;
+    private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn, flipEllipse, createArray,
+    showArray, eliminateArrayOfFigures, moveArray, deleteArrayFromCanvas;
     private ComboBox<String> chooseFigure;
     private ArrayList<Circle> circlesList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
@@ -59,7 +60,6 @@ public class Main extends Application {
 
         initDefaultToolsField();
         initToolsText();
-
         createBtn = new Button("Создать");
         createRandomBtn = new Button("Создать со случайными значениями");
         moveBtn = new Button("Переместить");
@@ -82,6 +82,10 @@ public class Main extends Application {
         buttons = new HBox(16);
         buttons.setAlignment(Pos.CENTER);
         buttons.getChildren().addAll(clearAllBtn, hideBtn, showBtn, moveBtn);
+
+        arrayUI = new HBox(16);
+        arrayUI.setAlignment(Pos.CENTER);
+        arrayUI.getChildren().addAll(createArray, deleteArrayFromCanvas, eliminateArrayOfFigures, showArray, moveArray);
 
         text1 = new HBox();
         text1.getChildren().addAll(creation, figureName1);
@@ -112,7 +116,7 @@ public class Main extends Application {
         settings.setBorder(new Border(new BorderStroke(Paint.valueOf("#CACACA"), BorderStrokeStyle.SOLID,
                 new CornerRadii(0, 4, 4, 0, false), BorderStroke.DEFAULT_WIDTHS)));
 //text1, createOnX, createOnY, createBtn, text2, moveToX, moveToY, moveBtn
-        settings.getChildren().addAll(chooseFigure, inputFields);
+        settings.getChildren().addAll(chooseFigure, inputFields, arraySection, arrayUI);
 
         Canvas canvas = new Canvas(rectangle2D.getWidth()/4*3, rectangle2D.getHeight()-34);
         GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
@@ -721,6 +725,14 @@ public class Main extends Application {
         inputError2 = new Label("В одном или нескольких полях допущена ошибка при вводе");
         inputError2.setTextFill(Color.RED);
         inputError2.setVisible(false);
+
+
+        createArray = new Button("Создать");
+        showArray = new Button("Показать");
+        eliminateArrayOfFigures = new Button("Уничтожить");
+        moveArray = new Button("Стереть");
+        deleteArrayFromCanvas = new Button("Переместить");
+
     }
 
     private void initToolsText(){
@@ -732,6 +744,8 @@ public class Main extends Application {
         creation.setFont(Font.font(16));
         movement = new Label("Переместить ");
         movement.setFont(Font.font(16));
+        arraySection = new Label("Массив фигур");
+        arraySection.setFont(Font.font(16));
     }
 
     private void clearInputFields(VBox vBox){
