@@ -20,8 +20,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import models.*;
+import sketches.TFigure;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main extends Application {
 
@@ -32,7 +34,9 @@ public class Main extends Application {
     private Label figureName1, figureName2, movement, creation, inputError1, inputError2, arraySection;
     private Button createBtn, moveBtn, createRandomBtn, hideBtn, showBtn, clearAllBtn, flipEllipse, createArray,
     showArray, eliminateArrayOfFigures, moveArray, deleteArrayFromCanvas;
+    CheckBox checkBox = new CheckBox("Работа с массивом");
     private ComboBox<String> chooseFigure;
+    private ArrayList<TFigure> figures = new ArrayList<>();
     private ArrayList<Circle> circlesList = new ArrayList<>();
     private ArrayList<Rectangle> rectangleList = new ArrayList<>();
     private ArrayList<Line> linesList = new ArrayList<>();
@@ -94,7 +98,7 @@ public class Main extends Application {
         text2.getChildren().addAll(movement, figureName2);
 
         chooseFigure = new ComboBox<>(figuresNames);
-        chooseFigure.setPromptText("Изобразить:");
+        chooseFigure.setPromptText("Изобразить и переместить:");
         chooseFigure.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -133,7 +137,7 @@ public class Main extends Application {
                             isInputCorrect(radius.getText(), DIMENSION);
 
                             circlesList.add(new Circle(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    toDouble(radius.getText()), canvas.getHeight(), canvas.getWidth(), true));
+                                    toDouble(radius.getText())));
                             rectangleList.add(null);
                             linesList.add(null);
                             rhombusList.add(null);
@@ -236,7 +240,7 @@ public class Main extends Application {
                             circlesList.add(null);
                             rectangleList.add(null);
                             ellipsesList.add(new Ellipse(toDouble(createOnX.getText()), toDouble(createOnY.getText()),
-                                    toDouble(radius.getText()), toDouble(radius1.getText()), canvas.getHeight(), canvas.getWidth(), true));
+                                    toDouble(radius.getText()), toDouble(radius1.getText())));
                             rhombusList.add(null);
                             trapeziumList.add(null);
 
@@ -254,7 +258,7 @@ public class Main extends Application {
             public void handle(ActionEvent event) {
                 switch (chooseFigure.getValue()){
                     case Circle.NAME:
-                        circlesList.add(new Circle(canvas.getHeight(), canvas.getWidth()));
+                        circlesList.add(new Circle());
                         rectangleList.add(null);
                         linesList.add(null);
                         rhombusList.add(null);
@@ -309,7 +313,7 @@ public class Main extends Application {
                         linesList.add(null);
                         rhombusList.add(null);
                         trapeziumList.add(null);
-                        ellipsesList.add(new Ellipse(canvas.getHeight(), canvas.getWidth()));
+                        ellipsesList.add(new Ellipse());
 
                         ellipsesList.get(ellipsesList.size() - 1).show(graphicsContext);
                         break;
@@ -319,7 +323,7 @@ public class Main extends Application {
         moveBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (circlesList.size() != 0){
+//                if (circlesList.size() != 0){
                     inputError2.setVisible(false);
 
                     switch (chooseFigure.getValue()){
@@ -327,15 +331,31 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Circle c : circlesList){
-                                    if (c != null){
+                                if (checkBox.isSelected()){
+                                    for (TFigure f : figures){
+                                        if (f instanceof Circle) {
+                                            Circle c = (Circle) f;
+                                            if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
 
-                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
-                                        }else {
-                                            c.changeRadius(toDouble(changedRadius.getText()));
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                c.changeRadius(toDouble(changedRadius.getText()));
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
+                                        }
+                                    }
+                                }else {
+                                    for (Circle c : circlesList) {
+                                        if (c != null) {
+                                            if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+
+                                            } else {
+                                                c.changeRadius(toDouble(changedRadius.getText()));
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
                                         }
                                     }
                                 }
@@ -349,16 +369,34 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Rectangle r : rectangleList){
-                                    if (r != null){
-                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
-                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
-                                        }else {
-                                            r.changeDimensions(toDouble(changedWidth.getText()),
-                                                    toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                if (checkBox.isSelected()){
+                                    for (TFigure f : figures){
+                                        if (f instanceof Rectangle) {
+                                            Rectangle r = (Rectangle) f;
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+
+                                            } else {
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
+                                        }
+                                    }
+                                }else {
+                                    for (Rectangle r : rectangleList) {
+                                        if (r != null) {
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
                                         }
                                     }
                                 }
@@ -393,16 +431,35 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Trapezium r : trapeziumList){
-                                    if (r != null){
-                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
-                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
-                                        }else {
-                                            r.changeDimensions(toDouble(changedWidth.getText()),
-                                                    toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                if (checkBox.isSelected()){
+                                    for (TFigure f : figures){
+                                        if (f instanceof Trapezium) {
+                                            Trapezium r = (Trapezium) f;
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+
+                                            } else {
+                                                System.out.println("HEH");
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
+                                        }
+                                    }
+                                }else {
+                                    for (Trapezium r : trapeziumList) {
+                                        if (r != null) {
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
                                         }
                                     }
                                 }
@@ -416,16 +473,34 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Rhombus r : rhombusList){
-                                    if (r != null){
-                                        if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
-                                                !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
-                                        }else {
-                                            r.changeDimensions(toDouble(changedWidth.getText()),
-                                                    toDouble(changedHeight.getText()));
-                                            r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                if (checkBox.isSelected()){
+                                    for (TFigure f : figures){
+                                        if (f instanceof Rhombus) {
+                                            Rhombus r = (Rhombus) f;
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+
+                                            } else {
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
+                                        }
+                                    }
+                                }else {
+                                    for (Rhombus r : rhombusList) {
+                                        if (r != null) {
+                                            if (!isOptionalFieldCorrect(changedWidth.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedHeight.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                r.changeDimensions(toDouble(changedWidth.getText()),
+                                                        toDouble(changedHeight.getText()));
+                                                r.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
                                         }
                                     }
                                 }
@@ -439,17 +514,35 @@ public class Main extends Application {
                             try{
                                 isInputCorrect(moveToX.getText(), COORDINATE);
                                 isInputCorrect(moveToY.getText(), COORDINATE);
-                                for (Ellipse c : ellipsesList){
-                                    if (c != null){
+                                if (checkBox.isSelected()){
+                                    for (TFigure f : figures){
+                                        if (f instanceof Ellipse) {
+                                            Ellipse c = (Ellipse) f;
+                                            if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedRadius1.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
 
-                                        if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION) &&
-                                                !isOptionalFieldCorrect(changedRadius1.getText(), DIMENSION)){
-                                            // If optional field is null, this code is executed
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
-                                        }else {
-                                            c.changeRadii(toDouble(changedRadius.getText()),
-                                                    toDouble(changedRadius1.getText()));
-                                            c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                c.changeRadii(toDouble(changedRadius.getText()),
+                                                        toDouble(changedRadius1.getText()));
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
+                                        }
+                                    }
+                                }else {
+                                    for (Ellipse c : ellipsesList) {
+                                        if (c != null) {
+
+                                            if (!isOptionalFieldCorrect(changedRadius.getText(), DIMENSION) &&
+                                                    !isOptionalFieldCorrect(changedRadius1.getText(), DIMENSION)) {
+                                                // If optional field is null, this code is executed
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            } else {
+                                                c.changeRadii(toDouble(changedRadius.getText()),
+                                                        toDouble(changedRadius1.getText()));
+                                                c.move(toDouble(moveToX.getText()), toDouble(moveToY.getText()), graphicsContext);
+                                            }
                                         }
                                     }
                                 }
@@ -461,7 +554,7 @@ public class Main extends Application {
                             break;
                     }
                 }
-            }
+//            }
         });
         hideBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -616,13 +709,76 @@ public class Main extends Application {
             }
         });
 
+        createArray.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Random random = new Random();
+                for(int i = 0; i < 30; i++){
+                    int r = random.nextInt(5);
+                    switch (r){
+                        case 0:
+                            figures.add(new Circle());
+                            break;
+                        case 1:
+                            figures.add(new Ellipse());
+                            break;
+                        case 2:
+                            figures.add(new Rectangle());
+                            break;
+                        case 3:
+                            figures.add(new Rhombus());
+                            break;
+                        case 4:
+                            figures.add(new Trapezium());
+                            break;
+                    }
+                }
+            }
+        });
+        showArray.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for (TFigure fig : figures){
+                    fig.setVisibility(true);
+                    fig.show(graphicsContext);
+                }
+            }
+        });
+        deleteArrayFromCanvas.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for (TFigure fig : figures){
+                    fig.setVisibility(false);
+                }
+                clearCanvas(canvas, graphicsContext);
+                drawAgain(graphicsContext);
+            }
+        });
+        eliminateArrayOfFigures.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearCanvas(canvas, graphicsContext);
+                figures.clear();
+                drawAgain(graphicsContext);
+            }
+        });
+        moveArray.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                for (TFigure f : figures){
+                    f.move(toDouble("10"), toDouble("10"), graphicsContext);
+                }
+                clearCanvas(canvas, graphicsContext);
+                drawAgain(graphicsContext);
+            }
+        });
+
         root.getChildren().addAll(settings, canvas);
 
         primaryStage.setX(rectangle2D.getMinX());
         primaryStage.setY(rectangle2D.getMinY());
         primaryStage.setMinHeight(rectangle2D.getHeight());
         primaryStage.setMinWidth(rectangle2D.getWidth());
-
     }
 
     public static void main(String[] args) {
@@ -662,14 +818,14 @@ public class Main extends Application {
             case Circle.NAME:
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedRadius, inputError2, buttons);
+                        createRandomBtn, text2, checkBox, moveToX, moveToY, changedRadius, inputError2, buttons);
                 break;
             case Rhombus.NAME:
             case Trapezium.NAME:
             case Rectangle.NAME:
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, height, width, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedHeight, changedWidth, inputError2, buttons);
+                        createRandomBtn, text2, checkBox, moveToX, moveToY, changedHeight, changedWidth, inputError2, buttons);
                 break;
             case Line.NAME:
                 clearInputFields(inputFields);
@@ -679,7 +835,7 @@ public class Main extends Application {
             case Ellipse.NAME:
                 clearInputFields(inputFields);
                 inputFields.getChildren().addAll(text1, createOnX, createOnY, radius, radius1, inputError1, createBtn,
-                        createRandomBtn, text2, moveToX, moveToY, changedRadius, changedRadius1,  inputError2, flipEllipse,
+                        createRandomBtn, text2, checkBox, moveToX, moveToY, changedRadius, changedRadius1,  inputError2, flipEllipse,
                         buttons);
                 break;
         }
@@ -730,8 +886,8 @@ public class Main extends Application {
         createArray = new Button("Создать");
         showArray = new Button("Показать");
         eliminateArrayOfFigures = new Button("Уничтожить");
-        moveArray = new Button("Стереть");
-        deleteArrayFromCanvas = new Button("Переместить");
+        moveArray = new Button("Переместить");
+        deleteArrayFromCanvas = new Button("Стереть");
 
     }
 
@@ -777,6 +933,11 @@ public class Main extends Application {
             }
             if (ellipsesList.get(i) != null) {
                 if (ellipsesList.get(i).getVisibility()) ellipsesList.get(i).show(gc);
+            }
+        }
+        for (TFigure f : figures){
+            if (f != null) {
+                if (f.getVisibility()) f.show(gc);
             }
         }
     }

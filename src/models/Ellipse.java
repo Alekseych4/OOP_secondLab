@@ -7,14 +7,13 @@ public class Ellipse extends Circle{
 
     private double radius1;
     public static final String NAME = "эллипс";
-    public Ellipse(double x, double y, double radius, double radius1, double canvasHeight, double canvasWidth,
-                   boolean modifyCoordsFlag) {
-        super(x, y, radius, canvasHeight, canvasWidth, modifyCoordsFlag);
+    public Ellipse(double x, double y, double radius, double radius1) {
+        super(x, y, radius);
         this.radius1 = radius1;
     }
 
-    public Ellipse(double canvasHeight, double canvasWidth) {
-        super(canvasHeight, canvasWidth);
+    public Ellipse() {
+        super();
         radius1 = Math.random() * 100;
     }
 

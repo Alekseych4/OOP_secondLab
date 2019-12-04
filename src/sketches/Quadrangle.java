@@ -6,7 +6,6 @@ import models.Point;
 
 public class Quadrangle extends TFigure {
 
-    private boolean visibility;
     private double height;
     private double width;
     private double[] xArray = new double[4];
@@ -16,20 +15,18 @@ public class Quadrangle extends TFigure {
         super(new Point(x, y));
         this.height = height;
         this.width = width;
-        visibility = true;
     }
 
     public Quadrangle() {
         super(new Point(Math.random() * 1000, Math.random() * 1000));
         height = Math.random() * 100;
         width = Math.random() * 100;
-        visibility = true;
     }
 
     @Override
     public void show(GraphicsContext gc) {
         setPointsOfQuadrangle(getCoords().getX(), getCoords().getY());
-        if (visibility) {
+        if (this.getVisibility()) {
             String color = "#00FF00";
             gc.setFill(Paint.valueOf(color));
             gc.fillPolygon(getxArray(), getyArray(), 4);
@@ -60,14 +57,6 @@ public class Quadrangle extends TFigure {
 
     public void setWidth(double width) {
         this.width = width;
-    }
-
-    public boolean getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(boolean visibility) {
-        this.visibility = visibility;
     }
 
     public double[] getxArray() {

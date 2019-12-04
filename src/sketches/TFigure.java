@@ -5,9 +5,11 @@ import models.Point;
 
 public abstract class TFigure {
     private Point coords;
+    private boolean visibility;
 
     public TFigure(Point coords) {
         this.coords = coords;
+        visibility = true;
         System.out.println("Coordinates were initialized");
     }
 
@@ -26,5 +28,13 @@ public abstract class TFigure {
 
     public void setCoords(Point coords) {
         this.coords = coords;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
+
+    public boolean getVisibility() {
+        return visibility;
     }
 }
